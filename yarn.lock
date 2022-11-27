@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@alfalab/core-components-vars@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@alfalab/core-components-vars/-/core-components-vars-3.0.1.tgz#c9452587eca697fde5ddfcb4108c7c1c54377217"
-  integrity sha512-fJmtEhQ+OYMmzMastOvFfPVgXEcD+K+oNg2/69EC18ecmaPiT+So8glPix2bOSXF5YlUpI3iXTO5LRwNHMv2kg==
+"@alfalab/core-components-vars@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-vars/-/core-components-vars-7.0.0.tgz#b2c6bab0e5bb3b1a5ee7ee81bb23b7d674670e95"
+  integrity sha512-zOzoZaqmo5XgFbl8FK4kVBvNN2uI8iTpHylgV73aGrErUQl4Q7fA/7dNQ2q8xCvEMpFGoZFtowNjCm2bAmldXg==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4":
   version "7.10.4"

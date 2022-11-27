@@ -232,8 +232,8 @@ testRule({
                     message: messages[RULE_USE_VARS].expected(['--border-radius-s'], '4px'),
                     line: 3,
                     column: 29,
-                }
-            ]
+                },
+            ],
         },
         ...Object.entries(vars.gaps).map(([value, vars]) => {
             const gapVar = vars[0];
@@ -619,8 +619,20 @@ testRule({
                     name: 'paragraph_primary_small',
                     props: mixins.typography['paragraph_primary_small'],
                 },
+                {
+                    name: 'paragraph_component_secondary',
+                    props: mixins.typography['paragraph_component_secondary'],
+                },
                 { name: 'accent_primary_small', props: mixins.typography['accent_primary_small'] },
+                {
+                    name: 'accent_component_secondary',
+                    props: mixins.typography['accent_component_secondary'],
+                },
                 { name: 'action_primary_small', props: mixins.typography['action_primary_small'] },
+                {
+                    name: 'action_component_secondary',
+                    props: mixins.typography['action_component_secondary'],
+                },
             ]),
             line: 2,
             column: 17,
@@ -643,8 +655,20 @@ testRule({
                     name: 'paragraph_primary_small',
                     props: mixins.typography['paragraph_primary_small'],
                 },
+                {
+                    name: 'paragraph_component_secondary',
+                    props: mixins.typography['paragraph_component_secondary'],
+                },
                 { name: 'accent_primary_small', props: mixins.typography['accent_primary_small'] },
+                {
+                    name: 'accent_component_secondary',
+                    props: mixins.typography['accent_component_secondary'],
+                },
                 { name: 'action_primary_small', props: mixins.typography['action_primary_small'] },
+                {
+                    name: 'action_component_secondary',
+                    props: mixins.typography['action_component_secondary'],
+                },
             ]),
             line: 3,
             column: 21,
