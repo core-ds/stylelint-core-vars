@@ -1,6 +1,6 @@
 const stylelint = require('stylelint');
+const { findOldVars } = require('./utils');
 const toOneLine = require('./utils').toOneLine;
-const formatVar = require('./utils').formatVar;
 const findVars = require('./utils').findVars;
 const colorsSet = require('./utils').colorsSet;
 const findTypographyMixins = require('./utils').findTypographyMixins;
@@ -11,6 +11,7 @@ const RULE_USE_ONE_OF_VARS = 'stylelint-core-vars/use-one-of-vars';
 const RULE_USE_MIXINS = 'stylelint-core-vars/use-mixins';
 const RULE_USE_ONE_OF_MIXINS = 'stylelint-core-vars/use-one-of-mixins';
 const RULE_DO_NOT_USE_DARK_COLORS = 'stylelint-core-vars/do-not-use-dark-colors';
+const RULE_DO_NOT_USE_OLD_VARS = 'stylelint-core-vars/do-not-use-old-vars';
 
 const messages = {
     [RULE_USE_VARS]: stylelint.utils.ruleMessages(RULE_USE_VARS, {
@@ -23,6 +24,18 @@ const messages = {
             const variablesPart = variables.map((v) => `var(${v})`).join('\n');
 
             return `Use variables instead of plain value '${value}':\n${variablesPart}\n`;
+        },
+    }),
+    [RULE_DO_NOT_USE_OLD_VARS]: stylelint.utils.ruleMessages(RULE_DO_NOT_USE_OLD_VARS, {
+        expected: (variables, value, fixable = true) => {
+            const startMsg = fixable ? 'Use' : 'Cant find proper token, but you can use';
+            if (variables.length === 1) {
+                return `${startMsg} variable 'var(${variables[0]})' instead of old '${value}'`;
+            } else {
+                const variablesPart = variables.map((v) => `var(${v})`).join('\n');
+
+                return `${startMsg} one of new variables instead of old '${value}':\n${variablesPart}\n`;
+            }
         },
     }),
     [RULE_USE_MIXINS]: stylelint.utils.ruleMessages(RULE_USE_MIXINS, {
@@ -45,23 +58,20 @@ const messages = {
     }),
 };
 
-const checkVars = (decl, result, context, ruleName) => {
+const checkVars = (decl, result, context, ruleName, matcher, shouldReport) => {
     const { prop, raws } = decl;
 
     let value = toOneLine(decl.value);
-
     let substitution;
+
     const previousValues = [];
 
-    while ((substitution = findVars(value, prop))) {
+    while ((substitution = matcher(value, prop))) {
         let fixed = false;
 
-        const exactVar = substitution.variables.length === 1;
-        const fixedValue = formatVar(substitution.variables[0]);
+        value = value.replace(substitution.value, substitution.fixedValue);
 
-        value = value.replace(substitution.value, fixedValue);
-
-        if (context.fix && exactVar) {
+        if (context.fix && substitution.fixable) {
             decl.value = value;
             fixed = true;
         }
@@ -71,16 +81,15 @@ const checkVars = (decl, result, context, ruleName) => {
             substitution.index
         );
 
-        const shouldReport =
-            !fixed &&
-            ((ruleName === RULE_USE_ONE_OF_VARS && !exactVar) ||
-                (ruleName === RULE_USE_VARS && exactVar));
-
-        if (shouldReport) {
+        if (shouldReport(substitution.fixable, fixed)) {
             stylelint.utils.report({
                 result,
                 ruleName,
-                message: messages[ruleName].expected(substitution.variables, substitution.value),
+                message: messages[ruleName].expected(
+                    substitution.variables,
+                    substitution.value,
+                    substitution.fixable
+                ),
                 node: decl,
                 word: value,
                 index: originalValueIndex + prop.length + raws.between.length,
@@ -89,7 +98,7 @@ const checkVars = (decl, result, context, ruleName) => {
 
         previousValues.unshift({
             ...substitution,
-            diff: fixedValue.length - substitution.value.length,
+            diff: substitution.fixedValue.length - substitution.value.length,
         });
     }
 };
@@ -170,7 +179,14 @@ module.exports = [
 
         return (root, result) => {
             root.walkDecls((decl) => {
-                checkVars(decl, result, context, RULE_USE_VARS);
+                checkVars(
+                    decl,
+                    result,
+                    context,
+                    RULE_USE_VARS,
+                    findVars,
+                    (fixable, fixed) => fixable && !fixed
+                );
             });
         };
     }),
@@ -181,7 +197,32 @@ module.exports = [
 
         return (root, result) => {
             root.walkDecls((decl) => {
-                checkVars(decl, result, context, RULE_USE_ONE_OF_VARS);
+                checkVars(
+                    decl,
+                    result,
+                    context,
+                    RULE_USE_ONE_OF_VARS,
+                    findVars,
+                    (fixable, fixed) => !fixable && !fixed
+                );
+            });
+        };
+    }),
+    stylelint.createPlugin(RULE_DO_NOT_USE_OLD_VARS, (enabled, _, context) => {
+        if (!enabled || !VARS_AVAILABLE) {
+            return () => {};
+        }
+
+        return (root, result) => {
+            root.walkDecls((decl) => {
+                checkVars(
+                    decl,
+                    result,
+                    context,
+                    RULE_DO_NOT_USE_OLD_VARS,
+                    findOldVars,
+                    (_, fixed) => !fixed
+                );
             });
         };
     }),
@@ -226,3 +267,4 @@ module.exports.RULE_USE_ONE_OF_VARS = RULE_USE_ONE_OF_VARS;
 module.exports.RULE_USE_MIXINS = RULE_USE_MIXINS;
 module.exports.RULE_USE_ONE_OF_MIXINS = RULE_USE_ONE_OF_MIXINS;
 module.exports.RULE_DO_NOT_USE_DARK_COLORS = RULE_DO_NOT_USE_DARK_COLORS;
+module.exports.RULE_DO_NOT_USE_OLD_VARS = RULE_DO_NOT_USE_OLD_VARS;

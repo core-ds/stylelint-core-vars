@@ -5,8 +5,9 @@ const {
     RULE_USE_ONE_OF_VARS,
     RULE_USE_MIXINS,
     RULE_USE_ONE_OF_MIXINS,
-    messages,
     RULE_DO_NOT_USE_DARK_COLORS,
+    RULE_DO_NOT_USE_OLD_VARS,
+    messages,
 } = require('.');
 
 testRule({
@@ -465,6 +466,74 @@ testRule({
                             '--color-light-bg-primary-inverted',
                         ],
                         '#0b1f35'
+                    ),
+                },
+            ],
+        },
+    ],
+});
+
+testRule({
+    plugins: [RULE_DO_NOT_USE_OLD_VARS],
+    ruleName: RULE_DO_NOT_USE_OLD_VARS,
+    config: true,
+    fix: true,
+    accept: [
+        {
+            code: `.class {
+                color: #000;
+            }`,
+            description: 'custom value',
+        },
+        {
+            code: `.class {
+                background-color: var(--color-light-bg-primary);
+                background: var(--color-light-bg-primary);
+                color: var(--color-light-text-primary);
+            }`,
+            description: 'colors',
+        },
+    ],
+    reject: [
+        {
+            code: `.class {\n    background-color: var(--color-dark-indigo-10-flat);\n}`,
+            fixed: `.class {\n    background-color: var(--color-light-bg-tertiary);\n}`,
+            message: messages[RULE_DO_NOT_USE_OLD_VARS].expected(
+                ['--color-light-bg-tertiary'],
+                '--color-dark-indigo-10-flat'
+            ),
+            line: 2,
+            column: 27,
+        },
+        {
+            code: `.class {
+                color: var(--color-red-brand-10-flat);
+                background: var(--color-red-dark);
+                fill: var(---color-black-10);
+            }`,
+            fixed: `.class {
+                color: var(--color-red-brand-10-flat);
+                background: var(--color-light-graphic-negative);
+                fill: var(---color-black-10);
+            }`,
+            description: 'multiple variants',
+            warnings: [
+                {
+                    column: 28,
+                    line: 2,
+                    message: messages[RULE_DO_NOT_USE_OLD_VARS].expected(
+                        ['--color-light-bg-negative-muted'],
+                        '--color-red-brand-10-flat',
+                        false
+                    ),
+                },
+                {
+                    column: 33,
+                    line: 3,
+                    message: messages[RULE_DO_NOT_USE_OLD_VARS].expected(
+                        ['--color-light-graphic-negative'],
+                        '--color-red-dark',
+                        true
                     ),
                 },
             ],

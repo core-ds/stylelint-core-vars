@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const oldNewMap = require('./old-new-map');
 
 const CORE_COMPONENTS_PACKAGE = '@alfalab/core-components';
 const CORE_COMPONENTS_VARS_PACKAGE = '@alfalab/core-components-vars';
@@ -20,7 +21,7 @@ const vars = {
 };
 
 const colorsSet = Object.values(vars.colors).reduce((acc, vars) => {
-    vars.forEach(colorVar => acc.add(colorVar));
+    vars.forEach((colorVar) => acc.add(colorVar));
 
     return acc;
 }, new Set());
@@ -42,6 +43,7 @@ const varsByProperties = {
     'margin-left': vars.gaps,
     'box-shadow': vars.shadows,
     color: vars.colors,
+    fill: vars.colors,
     background: vars.colors,
     'background-color': vars.colors,
     border: vars.colors,
@@ -155,7 +157,7 @@ function loadMixins(file) {
 }
 
 function formatVar(variable) {
-    return `var(${variable})`;
+    return variable.startsWith('var(') ? variable : `var(${variable})`;
 }
 
 function findInValue(haystack, needle, fromIndex) {
@@ -169,27 +171,27 @@ function findInValue(haystack, needle, fromIndex) {
     );
 }
 
+function getColorVariants(prop) {
+    switch (prop) {
+        case 'color':
+            return ['text'];
+        case 'background-color':
+        case 'background':
+            return ['bg', 'specialbg', 'graphic'];
+        case 'border':
+        case 'border-top':
+        case 'border-right':
+        case 'border-bottom':
+        case 'border-left':
+            return ['border', 'graphic', 'bg', 'specialbg'];
+        default:
+            return [];
+    }
+}
+
 function choiceVars(variables, prop, group) {
     if (group === 'colors') {
-        const colorVariants = () => {
-            switch (prop) {
-                case 'color':
-                    return ['text'];
-                case 'background-color':
-                case 'background':
-                    return ['bg', 'specialbg', 'graphic'];
-                case 'border':
-                case 'border-top':
-                case 'border-right':
-                case 'border-bottom':
-                case 'border-left':
-                    return ['border', 'graphic', 'bg', 'specialbg'];
-                default:
-                    return [];
-            }
-        };
-
-        const variants = colorVariants();
+        const variants = getColorVariants(prop);
 
         const condition = (variable) =>
             variants.some((variant) => variable.startsWith(`--color-light-${variant}`));
@@ -218,6 +220,37 @@ function findVars(cssValue, prop) {
                 index,
                 value,
                 variables: chosen,
+                fixedValue: formatVar(chosen[0]),
+                fixable: chosen.length === 1,
+            };
+        }
+    }
+}
+
+function findOldVars(cssValue, prop) {
+    const matches = /var\(([^\),]+)/g.exec(cssValue);
+
+    if (matches) {
+        const oldVar = matches[1];
+        const replacements = oldNewMap[oldVar];
+        if (!replacements || !replacements.length) return;
+
+        const variants = getColorVariants(prop);
+
+        let variables = replacements.filter((r) => variants.some((v) => r.includes(v)));
+        const fixable = variables.length === 1;
+
+        if (!variables.length) {
+            variables = replacements;
+        }
+
+        if (variables.length) {
+            return {
+                index: cssValue.indexOf(oldVar),
+                value: oldVar,
+                variables,
+                fixedValue: variables[0],
+                fixable,
             };
         }
     }
@@ -266,11 +299,13 @@ function sortVarsByUsage(arr, sortingArr) {
     });
 }
 
-module.exports.VARS_AVAILABLE = VARS_AVAILABLE;
-module.exports.vars = vars;
-module.exports.colorsSet = colorsSet;
-module.exports.mixins = mixins;
-module.exports.findVars = findVars;
-module.exports.formatVar = formatVar;
-module.exports.toOneLine = toOneLine;
-module.exports.findTypographyMixins = findTypographyMixins;
+module.exports = {
+    VARS_AVAILABLE,
+vars,
+colorsSet,
+mixins,
+findVars,
+formatVar,
+toOneLine,
+findTypographyMixins,
+findOldVars}

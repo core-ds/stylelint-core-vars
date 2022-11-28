@@ -1,6 +1,6 @@
 # stylelint-core-vars
 
-[![NPM Version](https://img.shields.io/npm/v/stylelint-core-vars.svg)](https://www.npmjs.com/package/stylelint-core-vars)
+[![NPM Version](https://img.shields.io/npm/v/@alfalab/stylelint-core-vars.svg)](https://www.npmjs.com/package/@alfalab/stylelint-core-vars)
 
 [Stylelint](http://stylelint.io) плагин, проверяющий использование [дизайн-токенов](https://github.com/alfa-laboratory/core-components/tree/master/packages/vars/src)
 
@@ -45,7 +45,13 @@ npm install --save-dev stylelint @alfalab/stylelint-core-vars
           {
               "severity": "warning"
           }
-      ]
+      ],
+      "stylelint-core-vars/do-not-use-old-vars": [
+          true,
+          {
+              "severity": "warning"
+          }
+      ],
   },
 }
 ```
