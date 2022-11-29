@@ -28,14 +28,17 @@ const messages = {
     }),
     [RULE_DO_NOT_USE_OLD_VARS]: stylelint.utils.ruleMessages(RULE_DO_NOT_USE_OLD_VARS, {
         expected: (variables, value, fixable = true) => {
+            if (!variables.length) return `Ask you designer how to replace old token '${value}'`;
+
             const startMsg = fixable ? 'Use' : 'Cant find proper token, but you can use';
+
             if (variables.length === 1) {
                 return `${startMsg} variable 'var(${variables[0]})' instead of old '${value}'`;
-            } else {
-                const variablesPart = variables.map((v) => `var(${v})`).join('\n');
-
-                return `${startMsg} one of new variables instead of old '${value}':\n${variablesPart}\n`;
             }
+
+            const variablesPart = variables.map((v) => `var(${v})`).join('\n');
+
+            return `${startMsg} one of new variables instead of old '${value}':\n${variablesPart}\n`;
         },
     }),
     [RULE_USE_MIXINS]: stylelint.utils.ruleMessages(RULE_USE_MIXINS, {

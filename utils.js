@@ -233,7 +233,7 @@ function findOldVars(cssValue, prop) {
     if (matches) {
         const oldVar = matches[1];
         const replacements = oldNewMap[oldVar];
-        if (!replacements || !replacements.length) return;
+        if (!replacements) return;
 
         const variants = getColorVariants(prop);
 
@@ -244,15 +244,13 @@ function findOldVars(cssValue, prop) {
             variables = replacements;
         }
 
-        if (variables.length) {
-            return {
-                index: cssValue.indexOf(oldVar),
-                value: oldVar,
-                variables,
-                fixedValue: variables[0],
-                fixable,
-            };
-        }
+        return {
+            index: cssValue.indexOf(oldVar),
+            value: oldVar,
+            variables,
+            fixedValue: variables.length ? variables[0] : 'NON_FIXABLE',
+            fixable,
+        };
     }
 }
 
@@ -301,11 +299,12 @@ function sortVarsByUsage(arr, sortingArr) {
 
 module.exports = {
     VARS_AVAILABLE,
-vars,
-colorsSet,
-mixins,
-findVars,
-formatVar,
-toOneLine,
-findTypographyMixins,
-findOldVars}
+    vars,
+    colorsSet,
+    mixins,
+    findVars,
+    formatVar,
+    toOneLine,
+    findTypographyMixins,
+    findOldVars,
+};

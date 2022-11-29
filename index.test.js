@@ -506,6 +506,14 @@ testRule({
             column: 27,
         },
         {
+            code: `.class {\n    background-color: var(--color-red-brand-85);\n}`,
+            fixed: `.class {\n    background-color: var(--color-red-brand-85);\n}`,
+            unfixable: true,
+            message: messages[RULE_DO_NOT_USE_OLD_VARS].expected([], ['--color-red-brand-85']),
+            line: 2,
+            column: 27,
+        },
+        {
             code: `.class {
                 color: var(--color-red-brand-10-flat);
                 background: var(--color-red-dark);
