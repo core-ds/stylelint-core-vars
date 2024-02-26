@@ -24,6 +24,13 @@ testRule({
         },
         {
             code: `.class {
+                /* stylelint-disable-next-line */
+                padding-left: 8px;
+            }`,
+            description: 'singleline rule with single value',
+        },
+        {
+            code: `.class {
                 padding: var(--gap-xs) 0 var(--gap-m) 0;
             }`,
             description: 'singleline rule with multiple values',
@@ -280,6 +287,43 @@ testRule({
             };
         }),
     ],
+});
+
+testRule({
+    plugins: [RULE_USE_VARS],
+    ruleName: RULE_USE_VARS,
+    config: [true, { allowNumericValues: true }],
+    fix: true,
+    accept: [
+        {
+            code: `.class {
+                  padding-left: 4px;
+              }`,
+            description: 'singleline rule with single value',
+        },
+        {
+            code: `.class {
+                  padding: 8px 0 16px 0;
+              }`,
+            description: 'singleline rule with multiple values',
+        },
+        {
+            code: `.class {
+                  padding: 8px 0 16px 0;
+                  margin: var(--gap-l);
+              }`,
+            description: 'multiline rule',
+        },
+        {
+            code: `.class {
+                  .inner {
+                      padding: 8px 0 16px 0;
+                  }
+              }`,
+            description: 'nested rule',
+        },
+    ],
+    reject: [],
 });
 
 testRule({
@@ -574,6 +618,21 @@ testRule({
                 }
             }`,
             description: 'typography nested rule',
+        },
+        {
+            code: `
+            /* stylelint-disable ${RULE_USE_MIXINS} */
+            .class {
+                background-color: var(--color-light-bg-primary);
+                font-size: 48px;
+                line-height: 64px;
+                background: var(--color-light-bg-primary);
+                font-weight: 500;
+                color: var(--color-light-text-primary);
+            }
+            /* stylelint-enable ${RULE_USE_MIXINS} */
+            `,
+            description: 'typography',
         },
     ],
     reject: [

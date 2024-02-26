@@ -202,11 +202,17 @@ function choiceVars(variables, prop, group) {
     return variables;
 }
 
-function findVars(cssValue, prop) {
+function findVars(cssValue, prop, options) {
     const vars = varsByProperties[prop];
     if (!vars) return;
 
     const group = getVarsGroup(vars);
+
+    if (group === 'gaps' || group === 'borderRadiuses') {
+        if (options.allowNumericValues) {
+            return;
+        }
+    }
 
     for (const [value, variables] of Object.entries(vars)) {
         const chosen = choiceVars(variables, prop, group);

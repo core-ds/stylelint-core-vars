@@ -61,7 +61,7 @@ const messages = {
     }),
 };
 
-const checkVars = (decl, result, context, ruleName, matcher, shouldReport) => {
+const checkVars = (decl, result, context, ruleName, matcher, shouldReport, options = {}) => {
     const { prop, raws } = decl;
 
     let value = toOneLine(decl.value);
@@ -69,7 +69,7 @@ const checkVars = (decl, result, context, ruleName, matcher, shouldReport) => {
 
     const previousValues = [];
 
-    while ((substitution = matcher(value, prop))) {
+    while ((substitution = matcher(value, prop, options))) {
         let fixed = false;
 
         value = value.replace(substitution.value, substitution.fixedValue);
@@ -175,10 +175,12 @@ const checkDarkColorsUsage = (decl, result, context, ruleName) => {
 };
 
 module.exports = [
-    stylelint.createPlugin(RULE_USE_VARS, (enabled, _, context) => {
+    stylelint.createPlugin(RULE_USE_VARS, (enabled, config, context) => {
         if (!enabled || !VARS_AVAILABLE) {
             return () => {};
         }
+
+        const allowNumericValues = config?.allowNumericValues || false;
 
         return (root, result) => {
             root.walkDecls((decl) => {
@@ -188,15 +190,18 @@ module.exports = [
                     context,
                     RULE_USE_VARS,
                     findVars,
-                    (fixable, fixed) => fixable && !fixed
+                    (fixable, fixed) => fixable && !fixed,
+                    { allowNumericValues }
                 );
             });
         };
     }),
-    stylelint.createPlugin(RULE_USE_ONE_OF_VARS, (enabled, _, context) => {
+    stylelint.createPlugin(RULE_USE_ONE_OF_VARS, (enabled, config, context) => {
         if (!enabled || !VARS_AVAILABLE) {
             return () => {};
         }
+
+        const allowNumericValues = config?.allowNumericValues || false;
 
         return (root, result) => {
             root.walkDecls((decl) => {
@@ -206,7 +211,8 @@ module.exports = [
                     context,
                     RULE_USE_ONE_OF_VARS,
                     findVars,
-                    (fixable, fixed) => !fixable && !fixed
+                    (fixable, fixed) => !fixable && !fixed,
+                    { allowNumericValues }
                 );
             });
         };

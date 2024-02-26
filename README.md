@@ -26,7 +26,12 @@ npm install --save-dev stylelint @alfalab/stylelint-core-vars
     "@alfalab/stylelint-core-vars"
   ],
   "rules": {
-      "stylelint-core-vars/use-vars": true,
+      "stylelint-core-vars/use-vars": [
+        true,
+        {
+            "allowNumericValues": true
+        }
+    ],
       "stylelint-core-vars/use-mixins": true,
       "stylelint-core-vars/use-one-of-vars": [
           true,
