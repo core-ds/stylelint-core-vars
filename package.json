@@ -16,9 +16,13 @@
         "@semantic-release/github": "9.2.6",
         "@semantic-release/npm": "11.0.2",
         "@semantic-release/release-notes-generator": "12.1.0",
+        "arui-presets-lint": "7.3.0",
         "jest": "29.7.0",
         "jest-preset-stylelint": "7.0.0",
+        "lint-staged": "15.2.5",
+        "prettier": "3.3.1",
         "semantic-release": "22.0.12",
+        "simple-git-hooks": "2.11.1",
         "stylelint": "16.6.1"
     },
     "jest": {
@@ -27,5 +31,18 @@
             "./jest.setup.js"
         ]
     },
+    "commitlint": {
+        "extends": "./node_modules/arui-presets-lint/commitlint"
+    },
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx,json}": [
+            "prettier --write"
+        ]
+    },
+    "simple-git-hooks": {
+        "pre-commit": "./node_modules/.bin/lint-staged",
+        "commit-msg": "./node_modules/.bin/commitlint --edit $1"
+    },
+    "prettier": "arui-presets-lint/prettier",
     "packageManager": "yarn@4.2.2"
 }
