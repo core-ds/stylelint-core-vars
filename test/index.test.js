@@ -1,5 +1,5 @@
-const vars = require('./utils').vars;
-const mixins = require('./utils').mixins;
+const vars = require('../lib/utils').vars;
+const mixins = require('../lib/utils').mixins;
 const {
     RULE_USE_VARS,
     RULE_USE_ONE_OF_VARS,
@@ -8,7 +8,7 @@ const {
     RULE_DO_NOT_USE_DARK_COLORS,
     RULE_DO_NOT_USE_OLD_VARS,
     messages,
-} = require('.');
+} = require('../lib');
 
 testRule({
     plugins: [RULE_USE_VARS],

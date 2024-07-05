@@ -9,15 +9,40 @@
     "author": "core-ds contributors",
     "license": "MIT",
     "devDependencies": {
-        "@alfalab/core-components-vars": "^7.0.0",
-        "jest": "^26.6.3",
-        "jest-preset-stylelint": "^3.0.0",
-        "stylelint": "^13.8.0"
+        "@alfalab/core-components-vars": "7.0.0",
+        "@semantic-release/changelog": "6.0.3",
+        "@semantic-release/commit-analyzer": "11.1.0",
+        "@semantic-release/git": "10.0.1",
+        "@semantic-release/github": "9.2.6",
+        "@semantic-release/npm": "11.0.2",
+        "@semantic-release/release-notes-generator": "12.1.0",
+        "arui-presets-lint": "7.3.0",
+        "jest": "29.7.0",
+        "jest-preset-stylelint": "6.3.2",
+        "lint-staged": "15.2.7",
+        "prettier": "3.3.2",
+        "semantic-release": "22.0.12",
+        "simple-git-hooks": "2.11.1",
+        "stylelint": "13.13.1"
     },
     "jest": {
         "preset": "jest-preset-stylelint",
         "setupFiles": [
             "./jest.setup.js"
         ]
-    }
+    },
+    "commitlint": {
+        "extends": "./node_modules/arui-presets-lint/commitlint"
+    },
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx,json}": [
+            "prettier --write"
+        ]
+    },
+    "simple-git-hooks": {
+        "pre-commit": "./node_modules/.bin/lint-staged",
+        "commit-msg": "./node_modules/.bin/commitlint --edit $1"
+    },
+    "prettier": "arui-presets-lint/prettier",
+    "packageManager": "yarn@4.3.1"
 }
