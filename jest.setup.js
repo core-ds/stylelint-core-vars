@@ -1,5 +1,3 @@
-const { getTestRule, getTestRuleConfigs } = require('jest-preset-stylelint');
-const plugins = [require('./')];
+const getTestRule = require('jest-preset-stylelint/getTestRule');
 
-global.testRule = getTestRule({ plugins });
-global.testRuleConfigs = getTestRuleConfigs({ plugins });
+global.testRule = getTestRule({ plugins: ['./'] });
