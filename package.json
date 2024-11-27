@@ -44,5 +44,5 @@
         "commit-msg": "./node_modules/.bin/commitlint --edit $1"
     },
     "prettier": "arui-presets-lint/prettier",
-    "packageManager": "yarn@4.3.1"
+    "packageManager": "yarn@4.5.3"
 }

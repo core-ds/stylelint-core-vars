@@ -12,7 +12,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@alfalab/stylelint-core-vars@npm:1.6.0, @alfalab/stylelint-core-vars@workspace:.":
+"@alfalab/stylelint-core-vars@npm:1.6.0":
+  version: 1.6.0
+  resolution: "@alfalab/stylelint-core-vars@npm:1.6.0"
+  checksum: 10c0/c49891b03779f60bbcebd025e8256ed6d5dd9065657402cdb7ef4e808ae7dc0b6e85aae34a86a5cdf76ab2bcc9aa2c1825089c5a362355980267be6c20456a5d
+  languageName: node
+  linkType: hard
+
+"@alfalab/stylelint-core-vars@workspace:.":
   version: 0.0.0-use.local
   resolution: "@alfalab/stylelint-core-vars@workspace:."
   dependencies:
