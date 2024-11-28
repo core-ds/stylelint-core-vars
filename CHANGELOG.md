@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/core-ds/stylelint-core-vars/compare/v1.7.0...v1.7.1) (2024-11-28)
+
+
+### Bug Fixes
+
+* **utils:** fix project root path definition ([ae8bd73](https://github.com/core-ds/stylelint-core-vars/commit/ae8bd732db71fc70405237294e789123c1e3ce07))
+
 # [1.7.0](https://github.com/core-ds/stylelint-core-vars/compare/v1.6.0...v1.7.0) (2024-07-05)
 
 
