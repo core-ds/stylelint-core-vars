@@ -1,0 +1,29 @@
+name: release
+
+on:
+    push:
+        branches:
+            - master
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+    release:
+        name: release
+        if: ${{ github.repository == 'core-ds/stylelint-core-vars' }}
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+
+            - uses: ./.github/actions/ci-setup
+
+            - name: create release pull request or publish to npm
+              uses: core-ds/changesets-snapshot-release@v1
+              with:
+                  publish: 'yarn release:snapshot'
+                  version: 'yarn version-package:snapshot'
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

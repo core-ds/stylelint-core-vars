@@ -1,0 +1,21 @@
+name: main
+
+on: push
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [18.x, 20.x, 22.x]
+
+        steps:
+            - uses: actions/checkout@v5
+
+            - uses: ./.github/actions/ci-setup
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: test
+              run: |
+                  yarn test

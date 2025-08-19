@@ -2,34 +2,19 @@
     "name": "@alfalab/stylelint-core-vars",
     "version": "1.7.1",
     "description": "core-components css linter",
+    "license": "MIT",
+    "author": "core-ds contributors",
     "main": "index.js",
     "scripts": {
-        "test": "jest"
+        "release": "changeset publish",
+        "release:snapshot": "changeset publish --tag snapshot --no-git-tag",
+        "test": "jest",
+        "version-package": "changeset version",
+        "version-package:snapshot": "changeset version --snapshot snapshot"
     },
-    "author": "core-ds contributors",
-    "license": "MIT",
-    "devDependencies": {
-        "@alfalab/core-components-vars": "7.0.0",
-        "@semantic-release/changelog": "6.0.3",
-        "@semantic-release/commit-analyzer": "11.1.0",
-        "@semantic-release/git": "10.0.1",
-        "@semantic-release/github": "9.2.6",
-        "@semantic-release/npm": "11.0.2",
-        "@semantic-release/release-notes-generator": "12.1.0",
-        "arui-presets-lint": "7.3.0",
-        "jest": "29.7.0",
-        "jest-preset-stylelint": "6.3.2",
-        "lint-staged": "15.2.7",
-        "prettier": "3.3.2",
-        "semantic-release": "22.0.12",
-        "simple-git-hooks": "2.11.1",
-        "stylelint": "13.13.1"
-    },
-    "jest": {
-        "preset": "jest-preset-stylelint",
-        "setupFiles": [
-            "./jest.setup.js"
-        ]
+    "simple-git-hooks": {
+        "pre-commit": "./node_modules/.bin/lint-staged",
+        "commit-msg": "./node_modules/.bin/commitlint --edit $1"
     },
     "commitlint": {
         "extends": "./node_modules/arui-presets-lint/commitlint"
@@ -39,10 +24,24 @@
             "prettier --write"
         ]
     },
-    "simple-git-hooks": {
-        "pre-commit": "./node_modules/.bin/lint-staged",
-        "commit-msg": "./node_modules/.bin/commitlint --edit $1"
-    },
     "prettier": "arui-presets-lint/prettier",
+    "dependencies": {
+        "@manypkg/get-packages": "3.1.0",
+        "postcss": "8.5.6",
+        "semver": "7.7.2"
+    },
+    "devDependencies": {
+        "@alfalab/core-components-vars": "7.0.0",
+        "@babel/plugin-transform-modules-commonjs": "7.27.1",
+        "@babel/preset-env": "7.28.3",
+        "@changesets/cli": "2.29.6",
+        "arui-presets-lint": "7.3.0",
+        "jest": "29.7.0",
+        "jest-preset-stylelint": "6.3.2",
+        "lint-staged": "15.2.7",
+        "prettier": "3.3.2",
+        "simple-git-hooks": "2.11.1",
+        "stylelint": "13.13.1"
+    },
     "packageManager": "yarn@4.5.3"
 }
