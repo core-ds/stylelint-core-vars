@@ -26,13 +26,11 @@
     },
     "prettier": "arui-presets-lint/prettier",
     "dependencies": {
-        "@manypkg/get-packages": "^3.1.0",
+        "@manypkg/get-packages": "^2.2.2",
         "postcss": "^8.5.6"
     },
     "devDependencies": {
         "@alfalab/core-components-vars": "7.0.0",
-        "@babel/plugin-transform-modules-commonjs": "^7.27.1",
-        "@babel/preset-env": "^7.28.3",
         "@changesets/cli": "^2.29.6",
         "arui-presets-lint": "^7.3.0",
         "jest": "^29.7.0",
