@@ -12,7 +12,7 @@ runs:
           shell: bash
           run: |
               NODE_VERSION_FILE=.node-version
-              NODE_VERSION='{{ inputs.node-version }}'
+              NODE_VERSION='${{ inputs.node-version }}'
 
               if [ "$NODE_VERSION" = "" ] && [ -f $NODE_VERSION_FILE ]; then
                   NODE_VERSION="$(cat $NODE_VERSION_FILE)"
