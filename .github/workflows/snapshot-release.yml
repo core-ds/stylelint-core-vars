@@ -1,9 +1,6 @@
-name: release
+name: snapshot-release
 
-on:
-    push:
-        branches:
-            - master
+on: workflow_dispatch
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
