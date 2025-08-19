@@ -1,3 +1,5 @@
+# stylelint-core-vars
+
 ## [1.7.1](https://github.com/core-ds/stylelint-core-vars/compare/v1.7.0...v1.7.1) (2024-11-28)
 
 
