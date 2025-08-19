@@ -7,6 +7,7 @@ const {
     RULE_USE_ONE_OF_MIXINS,
     RULE_DO_NOT_USE_DARK_COLORS,
     RULE_DO_NOT_USE_OLD_VARS,
+    RULE_NO_USELESS_VARS_IMPORT,
     messages,
 } = require('../lib');
 
@@ -181,7 +182,7 @@ testRule({
             description: 'hardcode singleline shadow',
             message: messages[RULE_USE_VARS].expected(
                 ['--shadow-xs'],
-                '0 0 4px rgba(11, 31, 53, 0.02), 0 2px 4px rgba(11, 31, 53, 0.04)'
+                '0 0 4px rgba(11, 31, 53, 0.02), 0 2px 4px rgba(11, 31, 53, 0.04)',
             ),
             line: 2,
             column: 17,
@@ -193,7 +194,7 @@ testRule({
             description: 'hardcode multiline shadow',
             message: messages[RULE_USE_VARS].expected(
                 ['--shadow-xs-hard'],
-                '0 0 4px rgba(11, 31, 53, 0.02), 0 2px 4px rgba(11, 31, 53, 0.04), 0 2px 4px rgba(11, 31, 53, 0.16)'
+                '0 0 4px rgba(11, 31, 53, 0.02), 0 2px 4px rgba(11, 31, 53, 0.04), 0 2px 4px rgba(11, 31, 53, 0.16)',
             ),
             line: 2,
             column: 17,
@@ -219,7 +220,7 @@ testRule({
                 {
                     message: messages[RULE_USE_VARS].expected(
                         ['--shadow-xs'],
-                        '0 0 4px rgba(11, 31, 53, 0.02), 0 2px 4px rgba(11, 31, 53, 0.04)'
+                        '0 0 4px rgba(11, 31, 53, 0.02), 0 2px 4px rgba(11, 31, 53, 0.04)',
                     ),
                     line: 3,
                     column: 17,
@@ -429,7 +430,7 @@ testRule({
                             '--color-light-specialbg-secondary-grouped',
                             '--color-light-graphic-primary-inverted',
                         ],
-                        '#fff'
+                        '#fff',
                     ),
                 },
                 {
@@ -441,7 +442,7 @@ testRule({
                             '--color-light-specialbg-secondary-grouped',
                             '--color-light-graphic-primary-inverted',
                         ],
-                        '#fff'
+                        '#fff',
                     ),
                 },
                 {
@@ -453,7 +454,7 @@ testRule({
                             '--color-light-graphic-primary',
                             '--color-light-bg-primary-inverted',
                         ],
-                        '#0b1f35'
+                        '#0b1f35',
                     ),
                 },
             ],
@@ -485,7 +486,7 @@ testRule({
                             '--color-light-specialbg-secondary-grouped',
                             '--color-light-graphic-primary-inverted',
                         ],
-                        '#fff'
+                        '#fff',
                     ),
                 },
                 {
@@ -497,7 +498,7 @@ testRule({
                             '--color-light-specialbg-secondary-grouped',
                             '--color-light-graphic-primary-inverted',
                         ],
-                        '#fff'
+                        '#fff',
                     ),
                 },
                 {
@@ -509,7 +510,7 @@ testRule({
                             '--color-light-graphic-primary',
                             '--color-light-bg-primary-inverted',
                         ],
-                        '#0b1f35'
+                        '#0b1f35',
                     ),
                 },
             ],
@@ -544,7 +545,7 @@ testRule({
             fixed: `.class {\n    background-color: var(--color-light-bg-tertiary);\n}`,
             message: messages[RULE_DO_NOT_USE_OLD_VARS].expected(
                 ['--color-light-bg-tertiary'],
-                '--color-dark-indigo-10-flat'
+                '--color-dark-indigo-10-flat',
             ),
             line: 2,
             column: 27,
@@ -576,7 +577,7 @@ testRule({
                     message: messages[RULE_DO_NOT_USE_OLD_VARS].expected(
                         ['--color-light-bg-negative-muted'],
                         '--color-red-brand-10-flat',
-                        false
+                        false,
                     ),
                 },
                 {
@@ -585,7 +586,7 @@ testRule({
                     message: messages[RULE_DO_NOT_USE_OLD_VARS].expected(
                         ['--color-light-graphic-negative'],
                         '--color-red-dark',
-                        true
+                        true,
                     ),
                 },
             ],
@@ -856,6 +857,43 @@ testRule({
                     message: messages[RULE_DO_NOT_USE_DARK_COLORS].expected(),
                 },
             ],
+        },
+    ],
+});
+
+testRule({
+    plugins: [RULE_NO_USELESS_VARS_IMPORT],
+    ruleName: RULE_NO_USELESS_VARS_IMPORT,
+    config: true,
+    accept: [
+        {
+            code: `@import '../../../shared/styles/vars.css';\n.css { @include flex-center; }`,
+            description: 'mixin in use',
+        },
+        {
+            code: `.class { padding: 8px; }`,
+            description: 'not have import',
+        },
+        {
+            code: `
+            /* stylelint-disable */
+            @import '../../../shared/styles/vars.css';
+
+            .class {
+                font-size: 48px;
+            }
+            `,
+            description: 'linter disabled',
+        },
+    ],
+    reject: [
+        {
+            code: `@import '../../../shared/styles/vars.css';\n.class { color: red; }`,
+            description: 'without using mixin/include',
+            message: messages[RULE_NO_USELESS_VARS_IMPORT].expected(),
+            line: 1,
+            column: 25,
+            fixed: `.class { color: red; }`,
         },
     ],
 });
