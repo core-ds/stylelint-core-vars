@@ -10,6 +10,5 @@ yarn-error.log
 CHANGELOG.md
 .changeset
 .node-version
-babel.config.js
 jest.config.mjs
 jest.setup.js
