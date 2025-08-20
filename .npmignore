@@ -8,4 +8,7 @@ yarn-error.log
 .nvmrc
 .yarnrc.yml
 CHANGELOG.md
-release.config.js
+.changeset
+.node-version
+jest.config.mjs
+jest.setup.js

@@ -16,7 +16,7 @@ jobs:
 
             - uses: ./.github/actions/ci-setup
 
-            - name: create release pull request or publish to npm
+            - name: snapshot release
               uses: core-ds/changesets-snapshot-release@v1
               with:
                   publish: 'yarn release:snapshot'
