@@ -26,12 +26,16 @@
         ]
     },
     "prettier": "arui-presets-lint/prettier",
+    "resolutions": {
+        "@alfalab/stylelint-core-vars": "link:./"
+    },
     "dependencies": {
         "@manypkg/get-packages": "^3.1.0",
         "postcss": "^8.5.6"
     },
     "devDependencies": {
         "@alfalab/core-components-vars": "7.0.0",
+        "@alfalab/stylelint-core-vars": "*",
         "@changesets/changelog-github": "^0.5.1",
         "@changesets/cli": "^2.29.6",
         "arui-presets-lint": "^7.3.0",

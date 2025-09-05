@@ -12,18 +12,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@alfalab/stylelint-core-vars@npm:1.6.0":
-  version: 1.6.0
-  resolution: "@alfalab/stylelint-core-vars@npm:1.6.0"
-  checksum: 10c0/c49891b03779f60bbcebd025e8256ed6d5dd9065657402cdb7ef4e808ae7dc0b6e85aae34a86a5cdf76ab2bcc9aa2c1825089c5a362355980267be6c20456a5d
+"@alfalab/stylelint-core-vars@link:./::locator=%40alfalab%2Fstylelint-core-vars%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@alfalab/stylelint-core-vars@link:./::locator=%40alfalab%2Fstylelint-core-vars%40workspace%3A."
   languageName: node
-  linkType: hard
+  linkType: soft
 
 "@alfalab/stylelint-core-vars@workspace:.":
   version: 0.0.0-use.local
   resolution: "@alfalab/stylelint-core-vars@workspace:."
   dependencies:
     "@alfalab/core-components-vars": "npm:7.0.0"
+    "@alfalab/stylelint-core-vars": "npm:*"
     "@changesets/changelog-github": "npm:^0.5.1"
     "@changesets/cli": "npm:^2.29.6"
     "@manypkg/get-packages": "npm:^3.1.0"
