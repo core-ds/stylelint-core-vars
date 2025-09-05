@@ -1,6 +1,4 @@
-const vars = require('../lib/utils').vars;
-const mixins = require('../lib/utils').mixins;
-const {
+import {
     RULE_USE_VARS,
     RULE_USE_ONE_OF_VARS,
     RULE_USE_MIXINS,
@@ -8,7 +6,9 @@ const {
     RULE_DO_NOT_USE_DARK_COLORS,
     RULE_DO_NOT_USE_OLD_VARS,
     messages,
-} = require('../lib');
+} from '../lib';
+
+import { vars, mixins } from '../lib/utils.js';
 
 testRule({
     plugins: [RULE_USE_VARS],
@@ -111,7 +111,7 @@ testRule({
             description: 'hardcode single gap',
             message: messages[RULE_USE_VARS].expected(['--gap-xs'], '8px'),
             line: 2,
-            column: 18,
+            column: 5,
         },
         {
             code: `.class {\n    padding: 8px 12px 4px 16px;\n}`,
@@ -121,22 +121,22 @@ testRule({
                 {
                     message: messages[RULE_USE_VARS].expected(['--gap-2xs'], '4px'),
                     line: 2,
-                    column: 23,
+                    column: 5,
                 },
                 {
                     message: messages[RULE_USE_VARS].expected(['--gap-xs'], '8px'),
                     line: 2,
-                    column: 14,
+                    column: 5,
                 },
                 {
                     message: messages[RULE_USE_VARS].expected(['--gap-s'], '12px'),
                     line: 2,
-                    column: 18,
+                    column: 5,
                 },
                 {
                     message: messages[RULE_USE_VARS].expected(['--gap-m'], '16px'),
                     line: 2,
-                    column: 27,
+                    column: 5,
                 },
             ],
         },
@@ -156,22 +156,22 @@ testRule({
                 {
                     message: messages[RULE_USE_VARS].expected(['--gap-2xs'], '4px'),
                     line: 3,
-                    column: 39,
+                    column: 21,
                 },
                 {
                     message: messages[RULE_USE_VARS].expected(['--gap-xs'], '8px'),
                     line: 3,
-                    column: 30,
+                    column: 21,
                 },
                 {
                     message: messages[RULE_USE_VARS].expected(['--gap-s'], '12px'),
                     line: 3,
-                    column: 34,
+                    column: 21,
                 },
                 {
                     message: messages[RULE_USE_VARS].expected(['--gap-m'], '16px'),
                     line: 3,
-                    column: 43,
+                    column: 21,
                 },
             ],
         },
@@ -181,10 +181,10 @@ testRule({
             description: 'hardcode singleline shadow',
             message: messages[RULE_USE_VARS].expected(
                 ['--shadow-xs'],
-                '0 0 4px rgba(11, 31, 53, 0.02), 0 2px 4px rgba(11, 31, 53, 0.04)'
+                '0 0 4px rgba(11, 31, 53, 0.02), 0 2px 4px rgba(11, 31, 53, 0.04)',
             ),
             line: 2,
-            column: 17,
+            column: 5,
         },
         {
             code: `.class {\n    box-shadow: 0 0 4px rgba(11, 31, 53, 0.02), 0 2px 4px rgba(11, 31, 53, 0.04),
@@ -193,10 +193,10 @@ testRule({
             description: 'hardcode multiline shadow',
             message: messages[RULE_USE_VARS].expected(
                 ['--shadow-xs-hard'],
-                '0 0 4px rgba(11, 31, 53, 0.02), 0 2px 4px rgba(11, 31, 53, 0.04), 0 2px 4px rgba(11, 31, 53, 0.16)'
+                '0 0 4px rgba(11, 31, 53, 0.02), 0 2px 4px rgba(11, 31, 53, 0.04), 0 2px 4px rgba(11, 31, 53, 0.16)',
             ),
             line: 2,
-            column: 17,
+            column: 5,
         },
         {
             code: `.class {\n    color: #0b1f35;\n}`,
@@ -204,7 +204,7 @@ testRule({
             description: 'hardcode single color',
             message: messages[RULE_USE_VARS].expected(['--color-light-text-primary'], '#0b1f35'),
             line: 2,
-            column: 12,
+            column: 5,
         },
         {
             code: `.class {\n    padding-top: 8px;\n    box-shadow: 0 0 4px rgba(11, 31, 53, 0.02), 0 2px 4px rgba(11, 31, 53, 0.04);\n}`,
@@ -214,15 +214,15 @@ testRule({
                 {
                     message: messages[RULE_USE_VARS].expected(['--gap-xs'], '8px'),
                     line: 2,
-                    column: 18,
+                    column: 5,
                 },
                 {
                     message: messages[RULE_USE_VARS].expected(
                         ['--shadow-xs'],
-                        '0 0 4px rgba(11, 31, 53, 0.02), 0 2px 4px rgba(11, 31, 53, 0.04)'
+                        '0 0 4px rgba(11, 31, 53, 0.02), 0 2px 4px rgba(11, 31, 53, 0.04)',
                     ),
                     line: 3,
-                    column: 17,
+                    column: 5,
                 },
             ],
         },
@@ -234,12 +234,12 @@ testRule({
                 {
                     message: messages[RULE_USE_VARS].expected(['--border-radius-m'], '8px'),
                     line: 2,
-                    column: 20,
+                    column: 5,
                 },
                 {
                     message: messages[RULE_USE_VARS].expected(['--border-radius-s'], '4px'),
                     line: 3,
-                    column: 29,
+                    column: 5,
                 },
             ],
         },
@@ -421,7 +421,7 @@ testRule({
             description: 'hardcode colors',
             warnings: [
                 {
-                    column: 35,
+                    column: 17,
                     line: 2,
                     message: messages[RULE_USE_ONE_OF_VARS].expected(
                         [
@@ -429,11 +429,11 @@ testRule({
                             '--color-light-specialbg-secondary-grouped',
                             '--color-light-graphic-primary-inverted',
                         ],
-                        '#fff'
+                        '#fff',
                     ),
                 },
                 {
-                    column: 29,
+                    column: 17,
                     line: 3,
                     message: messages[RULE_USE_ONE_OF_VARS].expected(
                         [
@@ -441,11 +441,11 @@ testRule({
                             '--color-light-specialbg-secondary-grouped',
                             '--color-light-graphic-primary-inverted',
                         ],
-                        '#fff'
+                        '#fff',
                     ),
                 },
                 {
-                    column: 35,
+                    column: 17,
                     line: 4,
                     message: messages[RULE_USE_ONE_OF_VARS].expected(
                         [
@@ -453,7 +453,7 @@ testRule({
                             '--color-light-graphic-primary',
                             '--color-light-bg-primary-inverted',
                         ],
-                        '#0b1f35'
+                        '#0b1f35',
                     ),
                 },
             ],
@@ -477,7 +477,7 @@ testRule({
             description: 'hardcode colors in nested rule',
             warnings: [
                 {
-                    column: 39,
+                    column: 21,
                     line: 3,
                     message: messages[RULE_USE_ONE_OF_VARS].expected(
                         [
@@ -485,11 +485,11 @@ testRule({
                             '--color-light-specialbg-secondary-grouped',
                             '--color-light-graphic-primary-inverted',
                         ],
-                        '#fff'
+                        '#fff',
                     ),
                 },
                 {
-                    column: 33,
+                    column: 21,
                     line: 4,
                     message: messages[RULE_USE_ONE_OF_VARS].expected(
                         [
@@ -497,11 +497,11 @@ testRule({
                             '--color-light-specialbg-secondary-grouped',
                             '--color-light-graphic-primary-inverted',
                         ],
-                        '#fff'
+                        '#fff',
                     ),
                 },
                 {
-                    column: 39,
+                    column: 21,
                     line: 5,
                     message: messages[RULE_USE_ONE_OF_VARS].expected(
                         [
@@ -509,7 +509,7 @@ testRule({
                             '--color-light-graphic-primary',
                             '--color-light-bg-primary-inverted',
                         ],
-                        '#0b1f35'
+                        '#0b1f35',
                     ),
                 },
             ],
@@ -544,10 +544,10 @@ testRule({
             fixed: `.class {\n    background-color: var(--color-light-bg-tertiary);\n}`,
             message: messages[RULE_DO_NOT_USE_OLD_VARS].expected(
                 ['--color-light-bg-tertiary'],
-                '--color-dark-indigo-10-flat'
+                '--color-dark-indigo-10-flat',
             ),
             line: 2,
-            column: 27,
+            column: 5,
         },
         {
             code: `.class {\n    background-color: var(--color-red-brand-85);\n}`,
@@ -555,7 +555,7 @@ testRule({
             unfixable: true,
             message: messages[RULE_DO_NOT_USE_OLD_VARS].expected([], ['--color-red-brand-85']),
             line: 2,
-            column: 27,
+            column: 5,
         },
         {
             code: `.class {
@@ -571,21 +571,21 @@ testRule({
             description: 'multiple variants',
             warnings: [
                 {
-                    column: 28,
+                    column: 17,
                     line: 2,
                     message: messages[RULE_DO_NOT_USE_OLD_VARS].expected(
                         ['--color-light-bg-negative-muted'],
                         '--color-red-brand-10-flat',
-                        false
+                        false,
                     ),
                 },
                 {
-                    column: 33,
+                    column: 17,
                     line: 3,
                     message: messages[RULE_DO_NOT_USE_OLD_VARS].expected(
                         ['--color-light-graphic-negative'],
                         '--color-red-dark',
-                        true
+                        true,
                     ),
                 },
             ],
@@ -846,12 +846,12 @@ testRule({
             description: 'dark colors',
             warnings: [
                 {
-                    column: 28,
+                    column: 24,
                     line: 2,
                     message: messages[RULE_DO_NOT_USE_DARK_COLORS].expected(),
                 },
                 {
-                    column: 39,
+                    column: 25,
                     line: 3,
                     message: messages[RULE_DO_NOT_USE_DARK_COLORS].expected(),
                 },
