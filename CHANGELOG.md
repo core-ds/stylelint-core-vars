@@ -1,5 +1,13 @@
 # stylelint-core-vars
 
+## 2.0.0
+
+### Major Changes
+
+- [#12](https://github.com/core-ds/stylelint-core-vars/pull/12) [`42f7125`](https://github.com/core-ds/stylelint-core-vars/commit/42f7125ff2feb3b90bb685c1d91b053e74618d19) Thanks [@hextion](https://github.com/hextion)! - Добавлена поддержка [`stylelint@16`](https://github.com/stylelint/stylelint/blob/5d642e9c9b6b8c7a453903350f112f991cdd9430/docs/migration-guide/to-16.md)
+
+    Пакет переведен на `esm` модули
+
 ## 1.7.2
 
 ### Patch Changes
