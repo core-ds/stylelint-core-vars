@@ -1,5 +1,9 @@
 # stylelint-core-vars
 
+# Библиотека переехала в [монорепозиторий arui-presets-lint](https://github.com/core-ds/arui-presets-lint/tree/master/packages/stylelint-core-vars)
+
+
+
 [![NPM Version](https://img.shields.io/npm/v/@alfalab/stylelint-core-vars.svg)](https://www.npmjs.com/package/@alfalab/stylelint-core-vars)
 
 [Stylelint](http://stylelint.io) плагин, проверяющий использование [дизайн-токенов](https://github.com/alfa-laboratory/core-components/tree/master/packages/vars/src)
